@@ -1,6 +1,7 @@
+// require('dotenv').config();
 export async function getWether(lat, lon) {
   const query_params = new URLSearchParams({
-    appid: 'f3a0c0c5852f5782153675928be12cb5',
+    appid: process.env.API_ID,
     lat: lat, //緯度
     lon: lon, //経度
   });

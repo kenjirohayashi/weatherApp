@@ -36,7 +36,7 @@ const App = () => {
     // console.log(JSON.stringify(weatherData) + 'aaaa');
   };
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <View style={styles.root}>

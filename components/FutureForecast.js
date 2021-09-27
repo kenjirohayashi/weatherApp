@@ -32,8 +32,8 @@ const FutureForecastItem = ({item}) => {
             <Image source={img} style={styles.image} />
           </View>
           <View>
-            <Text style={styles.temp}>日中 - {item ? item.temp.day : ''}&#176;C</Text>
-            <Text style={styles.temp}>夜間 - {item ? item.temp.night : ''}&#176;C</Text>
+            <Text style={styles.temp}>日中 : {item ? item.temp.day : ''}&#176;C</Text>
+            <Text style={styles.temp}>夜間 : {item ? item.temp.night : ''}&#176;C</Text>
           </View>
         </View>
       </View>
@@ -79,6 +79,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'white',
     fontWeight: '100',
-    textAlign: 'center',
+    textAlign: 'left',
   },
 });
