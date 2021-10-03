@@ -1,16 +1,29 @@
 import React from 'react';
 import moment from 'moment-timezone';
-import {View, ScrollView, Image, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Image,
+  Text,
+  StyleSheet,
+  FlatList,
+} from 'react-native';
+import Swiper from 'react-native-swiper';
 
 import FutureForecast from './FutureForecast';
+import DetailForecast from './DetailForecast';
 
 const WeatherScroll = ({weatherData}) => {
-  // console.log(JSON.stringify(weatherData));
+
   return (
-    <ScrollView style={styles.scrollView}>
-      {/* <CurrentTemp data={weatherData ? weatherData[0] : {}} /> */}
-      <FutureForecast data={weatherData ? weatherData : {}} />
-    </ScrollView>
+    <Swiper>
+      <ScrollView style={styles.scrollView}>
+        <DetailForecast data={weatherData ? weatherData.hourly : {}} />
+      </ScrollView>
+      <ScrollView style={styles.scrollView}>
+        <FutureForecast data={weatherData ? weatherData.daily : {}} />
+      </ScrollView>
+    </Swiper>
   );
 };
 

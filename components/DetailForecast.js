@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
 import moment from 'moment-timezone';
+import {tSAnyKeyword} from '@babel/types';
 
 const sky = {
   Clear: '快晴',
@@ -13,11 +14,11 @@ const sky = {
   Thunderstorm: '雷',
 };
 
-const FutureForecast = ({data}) => {
+const DetailForecast = ({data}) => {
   return (
     <View style={{flexDirection: 'column'}}>
       {data && data.length > 0 ? (
-        data.map((data, i) => <FutureForecastItem item={data} key={i} />)
+        data.map((data, i) => <DetailForecastItem item={data} key={i} />)
       ) : (
         <View />
       )}
@@ -25,28 +26,35 @@ const FutureForecast = ({data}) => {
   );
 };
 
-const FutureForecastItem = ({item}) => {
+const DetailForecastItem = ({item}) => {
   // console.log(item);
   if (item && item.weather) {
     const img = {
       uri:
         'https://openweathermap.org/img/wn/' + item.weather[0].icon + '@4x.png',
     };
+
+    const cdt = item.weather[0].main;
+
+    console.log(cdt);
+
     return (
       <View style={styles.FutureForecastItemContainer}>
         <View style={styles.ForeCastData}>
-          <View style={{flexDirection:'row', alignItems:'center',flex: 1.5}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', flex: 1.5}}>
             <Text style={styles.day}>
-              {item ? moment(item.dt * 1000).format('ddd') : ''}
+              {item ? moment(item.dt * 1000).format('kk:mm') : ''}
             </Text>
             <Image source={img} style={styles.image} />
           </View>
-          <View style={{flex: 1}}>
-            <Text style={styles.temp}>{sky[item.weather[0].main]}</Text>
+          <View style={{flex: 1, color: 'white'}}>
+            <Text style={styles.temp}>{sky[cdt]}</Text>
           </View>
           <View style={{flex: 1.5}}>
-            <Text style={styles.temp}>日中 : {item ? item.temp.day : ''}&#176;C</Text>
-            <Text style={styles.temp}>夜間 : {item ? item.temp.night : ''}&#176;C</Text>
+            <Text style={styles.temp}>
+              気温 : {item ? item.temp : ''}&#176;C
+            </Text>
+            {/* <Text style={styles.temp}>夜間 : {item ? item.temp.night : ''}&#176;C</Text> */}
           </View>
         </View>
       </View>
@@ -56,7 +64,7 @@ const FutureForecastItem = ({item}) => {
   }
 };
 
-export default FutureForecast;
+export default DetailForecast;
 
 const styles = StyleSheet.create({
   image: {

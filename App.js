@@ -46,7 +46,7 @@ const App = () => {
         timezone={data.timezone}
         current={data.current}
       />
-      <WeatherScroll weatherData={data.daily} />
+      <WeatherScroll weatherData={data} />
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
