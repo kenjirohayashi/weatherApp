@@ -37,6 +37,7 @@ const Months = [
   'Dec',
 ];
 
+
 const DateTime = ({lat, lon, timezone, current}) => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
@@ -58,10 +59,8 @@ const DateTime = ({lat, lon, timezone, current}) => {
         (minute < 10 ? '0' + minute : minute) +
         ampm,
     );
-    setDate(Days[day] + ',' + date + '' + Months[month]);
+    setDate(Days[day] + ' , ' + Months[month] + ' ' + date + 'th');
   }, []);
-
-  // console.log(current);
 
   return (
     <View style={styles.container}>
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
   },
   subheading: {
     marginTop: 20,
-    fontSize: 25,
+    fontSize: 22,
     color: 'black',
     fontWeight: '300',
   },

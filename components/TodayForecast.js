@@ -1,16 +1,7 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Button,
-} from 'react-native';
-import Modal from 'react-native-modal';
+import React from 'react';
+import {View, Text, Image, StyleSheet} from 'react-native';
 
 import moment from 'moment-timezone';
-import DetailForecast from './DetailForecast';
 
 const sky = {
   Clear: '快晴',
@@ -22,15 +13,13 @@ const sky = {
   Thunderstorm: '雷',
 };
 
-const FutureForecast = ({data, timezone}) => {
+const TodayForecast = ({data}) => {
   return (
     <View style={{flexDirection: 'column', marginBottom: 50}}>
-      <Text style={styles.title}>週間予報</Text>
+      <Text style={styles.title}>24時間予報</Text>
       {data && data.length > 0 ? (
         data.map((data, i) => {
-          if (i != 0) {
-            return <FutureForecastItem item={data} key={i} timezone={timezone}/>;
-          }
+          if (i < 24) return <TodayForecastItem item={data} key={i} />;
         })
       ) : (
         <View />
@@ -39,57 +28,41 @@ const FutureForecast = ({data, timezone}) => {
   );
 };
 
-const FutureForecastItem = ({item, timezone}) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-  };
-
+const TodayForecastItem = ({item}) => {
   // console.log(item);
-  
   if (item && item.weather) {
     const img = {
       uri:
         'https://openweathermap.org/img/wn/' + item.weather[0].icon + '@4x.png',
     };
+
     return (
-      <TouchableOpacity
-        style={styles.FutureForecastItemContainer}
-        onPress={() => toggleModal()}>
-        <Modal isVisible={modalVisible}>
-          <View style={styles.modalContainer}>
-            <DetailForecast data={item} timezone={timezone} />
-            <Button
-              onPress={() => toggleModal()}
-              title="閉じる"
-              style={{color: 'white'}}
-            />
-          </View>
-        </Modal>
+      <View style={styles.FutureForecastItemContainer}>
         <View style={styles.ForeCastData}>
           <View style={{flexDirection: 'row', alignItems: 'center', flex: 1.5}}>
             <Text style={styles.day}>
-              {moment(item.dt * 1000).tz(timezone).format('ddd')}
+              {item ? moment(item.dt * 1000).format('kk:mm') : ''}
             </Text>
             <Image source={img} style={styles.image} />
           </View>
-          <View style={{flex: 1}}>
+          <View style={{flex: 1, color: 'white'}}>
             <Text style={styles.temp}>{sky[item.weather[0].main]}</Text>
           </View>
           <View style={{flex: 1.5}}>
-            <Text style={styles.temp}>日中 : {item.temp.day}&#176;C</Text>
-            <Text style={styles.temp}>夜間 : {item.temp.night}&#176;C</Text>
+            <Text style={styles.temp}>
+              気温 : {item ? item.temp : ''}&#176;C
+            </Text>
+            {/* <Text style={styles.temp}>夜間 : {item ? item.temp.night : ''}&#176;C</Text> */}
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   } else {
     return <View />;
   }
 };
 
-export default FutureForecast;
+export default TodayForecast;
 
 const styles = StyleSheet.create({
   image: {
@@ -132,19 +105,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '100',
     textAlign: 'left',
-  },
-  modalContainer: {
-    height: 200,
-    flex: 0.7,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    opacity: 0.8,
-    borderColor: 'black',
-    borderRadius: 10,
-    borderWidth: 2,
-    paddingLeft: 15,
-    paddingRight: 15,
-    margin: 10,
   },
 });

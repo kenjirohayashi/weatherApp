@@ -19,8 +19,6 @@ const App = () => {
     );
   }, []);
 
-  // console.log(data);
-
   const getWether = async (lat, lon) => {
     const query_params = new URLSearchParams({
       appid: 'f3a0c0c5852f5782153675928be12cb5',
@@ -36,7 +34,8 @@ const App = () => {
     // console.log(JSON.stringify(weatherData) + 'aaaa');
   };
 
-  // console.log(data);
+
+  // console.log(data.current);
 
   return (
     <View style={styles.root}>
@@ -46,7 +45,7 @@ const App = () => {
         timezone={data.timezone}
         current={data.current}
       />
-      <WeatherScroll weatherData={data} />
+      <WeatherScroll weatherData={data} timezone={data.timezone} />
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}

@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
 import moment from 'moment-timezone';
-import {tSAnyKeyword} from '@babel/types';
 
 const sky = {
   Clear: '快晴',
@@ -14,48 +13,43 @@ const sky = {
   Thunderstorm: '雷',
 };
 
-const DetailForecast = ({data}) => {
-  return (
-    <View style={{flexDirection: 'column'}}>
-      {data && data.length > 0 ? (
-        data.map((data, i) => <DetailForecastItem item={data} key={i} />)
-      ) : (
-        <View />
-      )}
-    </View>
-  );
-};
-
-const DetailForecastItem = ({item}) => {
-  // console.log(item);
-  if (item && item.weather) {
+const DetailForecast = ({data, timezone}) => {
+  // console.log(data);
+  if (data && data.weather) {
     const img = {
       uri:
-        'https://openweathermap.org/img/wn/' + item.weather[0].icon + '@4x.png',
+        'https://openweathermap.org/img/wn/' + data.weather[0].icon + '@4x.png',
     };
-
-    const cdt = item.weather[0].main;
-
-    console.log(cdt);
-
     return (
-      <View style={styles.FutureForecastItemContainer}>
-        <View style={styles.ForeCastData}>
-          <View style={{flexDirection: 'row', alignItems: 'center', flex: 1.5}}>
-            <Text style={styles.day}>
-              {item ? moment(item.dt * 1000).format('kk:mm') : ''}
-            </Text>
+      <View style={styles.container}>
+        <Text style={styles.day}>{moment(data.dt * 1000).format('dddd')}</Text>
+        <View style={styles.upperContainer}>
+          <View style={{textAlign: 'center'}}>
             <Image source={img} style={styles.image} />
+            <Text style={styles.sky}>{sky[data.weather[0].main]}</Text>
           </View>
-          <View style={{flex: 1, color: 'white'}}>
-            <Text style={styles.temp}>{sky[cdt]}</Text>
-          </View>
-          <View style={{flex: 1.5}}>
-            <Text style={styles.temp}>
-              気温 : {item ? item.temp : ''}&#176;C
+          <View style={styles.feeelData}>
+            <Text style={styles.subtext}>湿度 : {data.humidity}%</Text>
+            <Text style={styles.subtext}>気圧 : {data.pressure}hPa</Text>
+            <Text style={styles.subtext}>
+              日の出 :{' '}
+              {moment(data.sunrise * 1000)
+                .tz(timezone)
+                .format('HH:mm')}
             </Text>
-            {/* <Text style={styles.temp}>夜間 : {item ? item.temp.night : ''}&#176;C</Text> */}
+            <Text style={styles.subtext}>
+              日の入り :{' '}
+              {moment(data.sunset * 1000)
+                .tz(timezone)
+                .format('HH:mm')}
+            </Text>
           </View>
+        </View>
+        <View style={styles.tempData}>
+          <Text style={styles.text}>日中 : {data.temp.day}&#176;C</Text>
+          <Text style={styles.text}>夜間 : {data.temp.night}&#176;C</Text>
+          <Text style={styles.text}>最高温度 : {data.temp.max}&#176;C</Text>
+          <Text style={styles.text}>最低温度 : {data.temp.min}&#176;C</Text>
         </View>
       </View>
     );
@@ -67,39 +61,54 @@ const DetailForecastItem = ({item}) => {
 export default DetailForecast;
 
 const styles = StyleSheet.create({
-  image: {
-    width: 50,
-    height: 50,
-  },
-  FutureForecastItemContainer: {
-    flex: 0.5,
-    justifyContent: 'center',
-    backgroundColor: '#00000033',
-    borderColor: '#eee',
-    borderRadius: 10,
-    borderWidth: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    margin: 10,
-  },
-  ForeCastData: {
-    flexDirection: 'row',
+  container: {
+    flexDirection: 'column',
     alignItems: 'center',
+    width: '100%',
+  },
+  upperContainer: {
+    width: '100%',
+    paddingHorizontal: 22,
+    flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+    // backgroundColor: 'white',
   },
   day: {
-    fontSize: 15,
-    color: 'white',
-    // backgroundColor: '#3c3c44',
-    textAlign: 'center',
-    borderRadius: 50,
-    fontWeight: '200',
-    // marginBottom: 15,
+    fontSize: 22,
+    marginTop: 20,
+    marginBottom: 10,
   },
-  temp: {
-    fontSize: 16,
-    color: 'white',
-    fontWeight: '100',
-    textAlign: 'left',
+  sky: {
+    fontSize: 24,
+    fontWeight: '600',
+    marginBottom: 18,
+    textAlign: 'center',
+  },
+  feeelData: {
+    padding: 10,
+    marginTop: 10,
+  },
+  tempData: {
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 10,
+  },
+  subtext: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 10,
+    color: '#5b5f62',
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: '400',
+    marginBottom: 16,
   },
 });
