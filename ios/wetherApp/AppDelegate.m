@@ -32,7 +32,7 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
 
-  [GMSServices provideAPIKey:@"AIzaSyAKwcz_-MjV70wB_MeUSIrcog8TNoObR38"];
+  [GMSServices provideAPIKey:@"API_KEY"];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge

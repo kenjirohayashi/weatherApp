@@ -21,7 +21,7 @@ const App = () => {
 
   const getWether = async (lat, lon) => {
     const query_params = new URLSearchParams({
-      appid: 'f3a0c0c5852f5782153675928be12cb5',
+      appid: 'API_KEY',
       lat: lat, //緯度
       lon: lon, //経度
       units: 'metric', //温度の単位を摂氏に
@@ -35,7 +35,7 @@ const App = () => {
   };
 
 
-  // console.log(data.current);
+  console.log(data.current);
 
   return (
     <View style={styles.root}>
