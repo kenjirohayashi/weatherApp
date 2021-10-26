@@ -25,3 +25,6 @@ ReactNativeで作成した天気予報アプリです
   <li>一目で必要な情報を得られるように表示した。</li>
   <li>簡単な操作</li>
 </ul>
+
+<h2>Qiita</h2>
+https://qiita.com/kenjirohayashi/items/bc7b9cbe6f1b6d6fc32d
