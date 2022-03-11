@@ -16,7 +16,7 @@ ReactNativeで作成した天気予報アプリです
   <li>ReactNative</li>
   <li>OpenWeatherMap API</li>
   <li>GoogleMap API</li>
-  <li>moment.js ← 時間データの加工</li>
+  <li>moment.js ← メンテナンスモードに入っているためday.js or date-fnsの使用を推奨します。</li>
 </ul>
 
 <h2>工夫点</h2>
